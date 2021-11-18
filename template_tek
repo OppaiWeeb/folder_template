@@ -1,0 +1,67 @@
+##
+## EPITECH PROJECT, 2021
+## Template folder generator
+## Project description:
+## folder generator
+##
+
+#!/bin/bash
+dir=$HOME/GIT/Template_generator
+get_name()
+{
+    echo ${PWD##*/}
+}
+
+select_quote()
+{
+    for ((i = 0; i < $1 ; i++)); do
+        read line
+    done < $dir/rsrc/quote.txt
+    echo $line
+}
+
+gen_c()
+{
+    cat $dir/rsrc/header.c | sed 's/z/\n/g' > tmp
+    cat tmp | sed "s/date/$(date +%Y)/g" > tmp
+    cat tmp | sed "s/file/$(get_name)/g" > tmp
+    nb=$(shuf -i1-25 -n1)
+    cat tmp | sed "s/quote/$(select_quote $nb)/g" > $(pwd)/$1
+    rm tmp
+}
+
+gen_makefile()
+{
+    cat $dir/rsrc/makefile | sed 's/z/\n/g' > tmp
+    cat tmp | sed "s/date/$(date +%Y)/g" > tmp
+    cat tmp | sed "s/file/$(get_name)/g" > tmp
+    cat tmp | sed "s/name/$(get_name)/g" > tmp
+    nb=$(shuf -i1-25 -n1)
+    cat tmp | sed "s/quote/$(select_quote $nb)/g" > $(pwd)/Makefile
+    rm tmp
+}
+
+main()
+{
+    echo [+] create folder
+    sleep .3
+    mkdir -p $(pwd)/src $(pwd)/include $(pwd)/tests
+    echo [+] create main.c
+    sleep .3
+    gen_c src/main.c
+    echo [+] create tests
+    sleep .3
+    gen_c tests/tests_$(get_name).c
+    echo [+] create makefile
+    sleep .3
+    gen_makefile
+    echo [+] create gitignore
+    sleep .3
+    cat $dir/rsrc/gitignore | sed "s/name/$(get_name)/g" > $(pwd)/.gitignore
+    echo [+] create lib
+    sleep .3
+    cp -r $dir/rsrc/lib/ $(pwd)/lib/
+    echo "folder is ready"
+}
+
+main
