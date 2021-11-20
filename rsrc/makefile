@@ -7,6 +7,8 @@
 
 CC = gcc
 
+WIN_CC = x86_64-w64-mingw32-gcc
+
 NAME = name
 
 SRC = src/main.c\
@@ -34,6 +36,9 @@ libmy:
 
 $(NAME): $(OBJ) libmy
 	$(CC) -o $(NAME) $(OBJ) $(CFLAG)
+
+window: $(OBJ)
+	$(WIN_CC) -o $(NAME) $(OBJ) $(CFLAG)
 
 clean:
 	make clean -C $(L_DIR)
