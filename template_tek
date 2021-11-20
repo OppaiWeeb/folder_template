@@ -60,7 +60,7 @@ main()
     cat $dir/rsrc/gitignore | sed "s/name/$(get_name)/g" > $(pwd)/.gitignore
     echo [+] create lib
     sleep .3
-    cp -r $dir/rsrc/lib/ $(pwd)/lib/
+    cp -r $dir/rsrc/lib/ $(pwd)/lib/ && cp $(pwd)/lib/my.h $(pwd)/include/
     echo "folder is ready"
 }
 
