@@ -6,7 +6,8 @@
 ##
 
 #!/bin/bash
-dir=$HOME/.local/share/template_tek/
+dir=$HOME/.local/share/template_tek
+
 get_name()
 {
     echo ${PWD##*/}
@@ -16,27 +17,27 @@ select_quote()
 {
     for ((i = 0; i < $1 ; i++)); do
         read line
-    done < $dir/rsrc/quote.txt
+    done < $dir/quote.txt
     echo $line
 }
 
 gen_c()
 {
-    cat $dir/rsrc/header.c | sed 's/z/\n/g' > tmp
+    cat $dir/header.c | sed 's/z/\n/g' > tmp
     cat tmp | sed "s/date/$(date +%Y)/g" > tmp
     cat tmp | sed "s/file/$(get_name)/g" > tmp
-    nb=$(shuf -i1-25 -n1)
+    nb=$(shuf -i1-24 -n1)
     cat tmp | sed "s/quote/$(select_quote $nb)/g" > $(pwd)/$1
     rm tmp
 }
 
 gen_makefile()
 {
-    cat $dir/rsrc/makefile | sed 's/z/\n/g' > tmp
+    cat $dir/makefile | sed 's/z/\n/g' > tmp
     cat tmp | sed "s/date/$(date +%Y)/g" > tmp
     cat tmp | sed "s/file/$(get_name)/g" > tmp
     cat tmp | sed "s/name/$(get_name)/g" > tmp
-    nb=$(shuf -i1-25 -n1)
+    nb=$(shuf -i1-24 -n1)
     cat tmp | sed "s/quote/$(select_quote $nb)/g" > $(pwd)/Makefile
     rm tmp
 }
@@ -57,10 +58,10 @@ main()
     gen_makefile
     echo [+] create gitignore
     sleep .3
-    cat $dir/rsrc/gitignore | sed "s/name/$(get_name)/g" > $(pwd)/.gitignore
+    cat $dir/gitignore | sed "s/name/$(get_name)/g" > $(pwd)/.gitignore
     echo [+] create lib
     sleep .3
-    cp -r $dir/rsrc/lib/ $(pwd)/lib/ && cp $(pwd)/lib/my.h $(pwd)/include/
+    cp -r $dir/lib $(pwd)/lib && cp $(pwd)/lib/my.h $(pwd)/include/
     echo "folder is ready"
 }
 
