@@ -7,6 +7,8 @@ You only need to use
 ```sh
     ./install.sh
 ```
+and make sure that .local/bin is in executable path
+
 after this you just need to exec
 ```sh
     template_tek
