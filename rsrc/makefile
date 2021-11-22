@@ -25,7 +25,7 @@ L_DIR = ./lib
 
 LIB = -l my
 
-CFLAG = -Wall -Wextra -Wpendantic -Wundef -I $(I_DIR) -L $(L_DIR) $(LIB)
+CFLAG = -Wall -Wextra -Wpedantic -Wundef -I $(I_DIR) -L $(L_DIR) $(LIB)
 
 DFLAG = $(CFLAG) -g3 -ggdb --coverage -l criterion
 
