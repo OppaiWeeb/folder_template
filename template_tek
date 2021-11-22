@@ -6,7 +6,7 @@
 ##
 
 #!/bin/bash
-dir=$HOME/GIT/Template_generator
+dir=$HOME/.local/share/template_tek/rsrc
 get_name()
 {
     echo ${PWD##*/}
