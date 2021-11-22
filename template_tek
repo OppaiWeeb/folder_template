@@ -7,6 +7,8 @@
 
 #!/bin/bash
 dir=$HOME/.local/share/template_tek
+purple='\033[0;35m'
+green='\033[0;32m'
 
 get_name()
 {
@@ -44,25 +46,25 @@ gen_makefile()
 
 main()
 {
-    echo [+] create folder
+    printf "${purple} [+] create folder\n"
     sleep .3
-    mkdir -p $(pwd)/src $(pwd)/include $(pwd)/tests
-    echo [+] create main.c
+    mkdir -p $(pwd)/src $(pwd)/include $(pwd)/tests $(pwd)/subject
+    printf "${purple} [+] create main.c\n"
     sleep .3
     gen_c src/main.c
-    echo [+] create tests
+    printf "${purple} [+] create tests\n"
     sleep .3
     gen_c tests/tests_$(get_name).c
-    echo [+] create makefile
+    printf "${purple} [+] create makefile\n"
     sleep .3
     gen_makefile
-    echo [+] create gitignore
+    printf "${purple} [+] create gitignore\n"
     sleep .3
     cat $dir/gitignore | sed "s/name/$(get_name)/g" > $(pwd)/.gitignore
-    echo [+] create lib
+    printf "${purple} [+] create lib\n"
     sleep .3
     cp -r $dir/lib $(pwd)/lib && cp $(pwd)/lib/my.h $(pwd)/include/
-    echo "folder is ready"
+    printf "${green} folder is ready\n"
 }
 
 main
