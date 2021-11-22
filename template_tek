@@ -6,7 +6,7 @@
 ##
 
 #!/bin/bash
-dir=$HOME/.local/share/template_tek/rsrc
+dir=$HOME/.local/share/template_tek/
 get_name()
 {
     echo ${PWD##*/}
