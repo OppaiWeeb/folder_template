@@ -33,11 +33,23 @@ gen_c()
     rm tmp
 }
 
+gen_h()
+{
+    name=$(get_name)
+    name="_${name^^}_H_"
+    echo $name
+    cat $dir/header.h | sed 's/z/\n/g' > tmp
+    cat tmp | sed "s/date/$(date +%Y)/g" > tmp
+    cat tmp | sed "s/file/$name/g" > tmp
+    nb=$(shuf -i1-24 -n1)
+    cat tmp | sed "s/quote/$(select_quote $nb)/g" > $(pwd)/$1
+    rm tmp
+}
+
 gen_makefile()
 {
     cat $dir/makefile | sed 's/z/\n/g' > tmp
     cat tmp | sed "s/date/$(date +%Y)/g" > tmp
-    cat tmp | sed "s/file/$(get_name)/g" > tmp
     cat tmp | sed "s/name/$(get_name)/g" > tmp
     nb=$(shuf -i1-24 -n1)
     cat tmp | sed "s/quote/$(select_quote $nb)/g" > $(pwd)/Makefile
@@ -58,6 +70,9 @@ main()
     printf "${purple} [+] create makefile\n"
     sleep .3
     gen_makefile
+    printf "${purple} [+] create include/${get_name}.h\n"
+    sleep .3
+    gen_h include/$(get_name).h
     printf "${purple} [+] create gitignore\n"
     sleep .3
     cat $dir/gitignore | sed "s/name/$(get_name)/g" > $(pwd)/.gitignore
