@@ -8,6 +8,7 @@ You only need to use
     ./install.sh
 ```
 and make sure that .local/bin is in executable path
+and also to copy your lib into the .local/share/template_tek/ directory
 
 after this you just need to exec
 ```sh
