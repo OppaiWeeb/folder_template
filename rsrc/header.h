@@ -1,11 +1,11 @@
 /*
 ** EPITECH PROJECT, date
-** file
+** name
 ** File description:
 ** quote
 */
 
-# ifndef file
+#ifndef file
     #define file
 
 #endif
