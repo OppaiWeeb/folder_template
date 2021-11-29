@@ -1,4 +1,4 @@
-i hope it work
+i hope it works
 don't forget to free at the end
 check the malloc! 
 check the man
@@ -23,4 +23,14 @@ segfautl does genocide of kitten each time
 battery at 2% is not the end
 fail is ok if you have free
 random bullshit go
-
+real programmer use ed
+Vim > emacs
+r/unixporn
+with great power there must also come great responsability
+$USER, if someone asks you if you're a god, just say YES!
+have you try to turn it on / off ?
+Enf Of Line \0
+There is no place like 127.0.0.1
+I just develops random features
+A Life? Cool! Where can I download one of those?
+Software is like sex: Its better when its free.
