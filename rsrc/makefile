@@ -1,33 +1,33 @@
 ##
-## EPITECH PROJECT, 2021
+## EPITECH PROJECT, date
 ## makefile
 ## File description:
-## well, real programmers use ed
+## quote
 ##
 
 CC = gcc
-
-WIN_CC = x86_64-w64-mingw32-gcc
 
 NAME = name
 
 SRC = src/main.c\
 
-SRC_TEST = tests/tests_name.c\
+SRC_TEST = tests/tests_push_swap.c\
 
 OBJ = $(SRC:.c=.o)
 
 OBJ_TEST = $(SRC_TEST:.c=.o)
 
-I_DIR = ./includes
+I_DIR = ./include
 
 L_DIR = ./lib
 
 LIB = -l my
 
-CFLAG = -Wall -Wextra -Wpedantic -Wundef -I $(I_DIR) -L $(L_DIR) $(LIB)
+CFLAGS = -g2 -ggdb -Wall -Wextra -Wpedantic -Wundef -I $(I_DIR)
 
-DFLAG = $(CFLAG) -g2 -ggdb --coverage -l criterion
+DEBUG_FLAG = --coverage -l criterion
+
+LDFLAGS =  -L $(L_DIR) $(LIB)
 
 all: $(NAME)
 
@@ -35,10 +35,7 @@ libmy:
 	make -C $(L_DIR)
 
 $(NAME): $(OBJ) libmy
-	$(CC) -o $(NAME) $(OBJ) $(CFLAG)
-
-window: $(OBJ)
-	$(WIN_CC) -o $(NAME) $(OBJ) $(CFLAG)
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LDFLAGS)
 
 clean:
 	make clean -C $(L_DIR)
@@ -57,7 +54,7 @@ tests_run: unit_tests
 run: fclean all
 	./$(NAME)
 
-re: fclean all
-	make re -C $(L_DIR)
+re: clean all
+	make -C $(L_DIR)
 
 .PHONY: all libmy $(NAME) clean fclean unit_tests tests_run run re
