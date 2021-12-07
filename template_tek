@@ -81,7 +81,10 @@ main()
 
     printf "${purple} [+] create lib\n"
     sleep .3
-    cp -r $dir/lib $(pwd)/lib && cp $(pwd)/lib/my.h $(pwd)/include/
+    cp -r $dir/lib $(pwd)/lib && rm -rf $(pwd)/lib/.git
+    cp $(pwd)/lib/my.h $(pwd)/include/
+    cp $(pwd)/lib/my_printf.h $(pwd)/include/
+    cp $(pwd)/lib/str.h $(pwd)/include/
 
     printf "${green} folder is ready\n"
 }
