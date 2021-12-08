@@ -2,7 +2,7 @@
 ## EPITECH PROJECT, date
 ## makefile
 ## File description:
-## well, real programmers use ed
+## quote
 ##
 CC = gcc
 
