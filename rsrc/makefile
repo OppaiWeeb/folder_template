@@ -2,7 +2,7 @@
 ## EPITECH PROJECT, date
 ## makefile
 ## File description:
-## quote
+## padoru
 ##
 CC = gcc
 
@@ -10,7 +10,7 @@ NAME = name
 
 SRC = src/main.c\
 
-SRC_TEST = tests/tests_push_swap.c\
+SRC_TEST = tests/tests_name.c\
 
 CFLAGS = -O3 -Wall -Wextra -Wpedantic -Wundef -iquote $(I_DIR)
 

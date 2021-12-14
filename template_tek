@@ -33,6 +33,7 @@ gen_c()
 }
 
 gen_h()
+
 {
     name=$(get_name)
     name="_${name^^}_H_"
@@ -49,7 +50,7 @@ gen_makefile()
     cat  $dir/makefile | sed "s/date/$(date +%Y)/g" > tmp
     cat tmp | sed "s/name/$(get_name)/g" > tmp
     nb=$(shuf -i1-24 -n1)
-    cat tmp | sed "s/quote/$(select_quote $nb)/g" > $(pwd)/Makefile
+    cat tmp | sed "s/padoru/$(select_quote $nb)/g" > $(pwd)/Makefile
     rm tmp
 }
 
