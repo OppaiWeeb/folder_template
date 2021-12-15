@@ -44,7 +44,7 @@ $(NAME): $(OBJ)
 	@echo -e "\e[1;34mBuilding $@\e[0m"
 	$(CC) $(OBJ) $(CFLAGS) -o $(NAME) $(LDFLAGS)
 
-debug: $(OBJ_DEBUG)
+debug: libmy $(OBJ_DEBUG)
 	@echo -e "\e[1;34mBuilding $@\e[0m"
 	$(CC) $(OBJ_DEBUG) $(CFLAGS) -o $(NAME)_debug $(LDFLAGS)
 
