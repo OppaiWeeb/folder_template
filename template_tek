@@ -56,6 +56,11 @@ gen_makefile()
 
 main()
 {
+    if [[ $1 == "-u" ]]; then
+        echo "UPDATE"
+        (cd $dir/ && git fetch && git pull)
+        exit 0
+    fi
     printf "${purple} [+] create folder\n"
     sleep .3
     mkdir -p $(pwd)/src $(pwd)/include $(pwd)/tests $(pwd)/subject
@@ -84,11 +89,8 @@ main()
     sleep .3
     cp -r $dir/lib $(pwd)/lib
     rm -rf $(pwd)/lib/.git
-    cp $(pwd)/lib/my.h $(pwd)/include/
-    cp $(pwd)/lib/my_printf.h $(pwd)/include/
-    cp $(pwd)/lib/str.h $(pwd)/include/
 
     printf "${green} folder is ready\n"
 }
 
-main
+main $1

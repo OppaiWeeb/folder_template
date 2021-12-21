@@ -4,8 +4,8 @@ green='\033[0;32m'
 white='\033[0;00m'
 
 printf "${green} [+] install ressources on the folder\n"
-mkdir -p $HOME/.local/share/template_tek $HOME/.local/bin
-cp -r rsrc/* $HOME/.local/share/template_tek
+git clone https://github.com/OppaiWeeb/folder_template $HOME/.local/share/template_tek 
+mkdir -p $HOME/.local/bin
 
 printf "${green} [+] install template_tek\n"
 cp template_tek $HOME/.local/bin/
