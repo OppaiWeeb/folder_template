@@ -6,7 +6,7 @@
 ##
 
 #!/bin/bash
-dir=$HOME/.local/share/template_tek
+dir=$HOME/.local/share/template_tek/rsrc
 purple='\033[0;35m'
 green='\033[0;32m'
 
