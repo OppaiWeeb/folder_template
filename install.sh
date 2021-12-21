@@ -6,6 +6,8 @@ white='\033[0;00m'
 printf "${green} [+] install ressources on the folder\n"
 if [[ ! -d $HOME/.local/share/template_tek ]]; then
     git clone https://github.com/OppaiWeeb/folder_template $HOME/.local/share/template_tek 
+else 
+    (cd $HOME/.local/share/template_tek/ && git fetch && git pull)
 fi
 mkdir -p $HOME/.local/bin
 
