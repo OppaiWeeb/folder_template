@@ -88,7 +88,7 @@ main()
 
     printf "${purple} [+] create lib\n"
     sleep .3
-    cp -r $dir/lib $(pwd)/lib
+    cp -r $dir/../lib $(pwd)/lib
     rm -rf $(pwd)/lib/.git
 
     printf "${green} folder is ready\n"
