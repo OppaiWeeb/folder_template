@@ -59,6 +59,7 @@ main()
     if [[ $1 == "-u" ]]; then
         echo "UPDATE"
         (cd $dir/ && git fetch && git pull)
+        (cd $dir/lib/ && git fetch && git pull)
         exit 0
     fi
     printf "${purple} [+] create folder\n"
