@@ -15,3 +15,10 @@ after this you just need to exec
     template_tek
 ```
 in the folder that you just clone from your epitech promotion repository
+
+If maybe you want to check if there is an update, I just add the "-u" features that check if the script is up-to-date
+```sh
+    template_tek -u
+```
+and it also going to check if the lib is up-to-date
+
