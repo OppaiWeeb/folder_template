@@ -63,6 +63,5 @@ tests_run: unit_tests
 	./test
 
 re: clean all
-	make -C $(L_DIR)
 
 .PHONY: all libmy $(NAME) clean fclean unit_tests tests_run run re debug
