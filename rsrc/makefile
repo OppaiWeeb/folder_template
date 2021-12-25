@@ -24,8 +24,15 @@ OBJ_TEST = $(SRC_TEST:.c=.o)
 
 OBJ_DEBUG = $(SRC:.c=_debug.o)
 
+%.o: %.c
+	$(BUILD_PRINT)
+	@ $(CC) $(CFLAGS) -c -o $@ $<
+
 %_debug.o: %.c
-	$(CC) $(DEBUG_FLAGS) -c -o $@ $<
+	$(BUILD_PRINT)
+	@ $(CC) $(DEBUG_FLAGS) -c -o $@ $<
+
+BUILD_PRINT = @echo -e "$(OK_COLOR)Building $<$(NO_COLOR)"
 
 I_DIR = ./include
 
@@ -35,26 +42,33 @@ LIB = -l my
 
 LDFLAGS =  -L $(L_DIR) $(LIB)
 
+NO_COLOR=\x1b[0m
+OK_COLOR=\x1b[32;01m
+ERROR_COLOR=\x1b[31;01m
+WARN_COLOR=\x1b[33;01m
+
 all: libmy $(NAME)
 
 libmy:
-	make -C $(L_DIR)
+	@ make -C $(L_DIR)
 
 $(NAME): $(OBJ)
-	@echo -e "\e[1;34mBuilding $@\e[0m"
-	$(CC) $(OBJ) $(CFLAGS) -o $(NAME) $(LDFLAGS)
+	@echo -e "$(OK_COLOR)Building $@$(NO_COLOR)"
+	@ $(CC) $(OBJ) $(CFLAGS) -o $(NAME) $(LDFLAGS)
 
 debug: libmy $(OBJ_DEBUG)
-	@echo -e "\e[1;34mBuilding $@\e[0m"
-	$(CC) $(OBJ_DEBUG) $(CFLAGS) -o $(NAME)_debug $(LDFLAGS)
+	@echo -e "$(OK_COLOR)Building $@$(NO_COLOR)"
+	@ $(CC) $(OBJ_DEBUG) $(CFLAGS) -o $(NAME)_debug $(LDFLAGS)
 
 clean:
-	make clean -C $(L_DIR)
-	rm -rf $(OBJ) $(OBJ_DEBUG) $(OBJ_TEST) *.gcda *.gcno
+	@ make clean -C $(L_DIR)
+	@echo -e "$(ERROR_COLOR){-} $(OBJ)$(OBJ_TEST)$(OBJ_DEBUG)$(NO_COLOR)"
+	@ rm -rf $(OBJ) $(OBJ_DEBUG) $(OBJ_TEST) *.gcda *.gcno
 
 fclean: clean
-	make fclean -C $(L_DIR)
-	rm -rf $(NAME) test $(NAME)_debug
+	@ make fclean -C $(L_DIR)
+	@echo -e "$(ERROR_COLOR){-} $(NAME)$(NO_COLOR)"
+	@ rm -rf $(NAME) test $(NAME)_debug
 
 unit_tests: fclean all $(OBJ_TEST)
 	$(CC) -o test $(OBJ_TEST) $(OBJ) $(TEST_FLAGS) $(LDFLAGS)
@@ -63,5 +77,6 @@ tests_run: unit_tests
 	./test
 
 re: clean all
+	@ make -C $(L_DIR)
 
 .PHONY: all libmy $(NAME) clean fclean unit_tests tests_run run re debug
