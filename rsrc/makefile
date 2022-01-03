@@ -12,7 +12,8 @@ SRC = src/main.c\
 
 SRC_TEST = tests/tests_name.c\
 
-CFLAGS = -O3 -Wall -Wextra -Wpedantic -Wundef -iquote $(I_DIR)
+CFLAGS = -Wall -Wextra -Wpedantic -Wshadow -Wpointer-arith -Wcast-qual -Wundef
+CFLAGS += -iquote $(I_DIR)
 
 DEBUG_FLAGS = -ggdb -g2 -Wall -Wextra -Wundef -Wpedantic -iquote $(I_DIR)
 
