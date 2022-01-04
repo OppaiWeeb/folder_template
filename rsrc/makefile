@@ -12,7 +12,7 @@ SRC_DIR		=	src
 SRC		=	$(SRC_DIR)/main.c\
 
 TEST_DIR	=	tests
-SRC_TEST	=	$(TEST_DIR)/test_name.c\
+SRC_TEST	=	$(TEST_DIR)/tests_name.c\
 
 OBJ_DIR		=	.obj
 INCLUDE_DIR 	=	include
