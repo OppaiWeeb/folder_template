@@ -11,13 +11,12 @@ arch is better don't joke it
 sudo apt install your_life
 80-char-no-jutsu
 hentai is good your program suck
-if it don't work: sudo rm -rf --no-preserve-root /*
+if it don't work: sudo rm -rf --no-preserve-root
 eat is cheat, sleep is dying
 the less you sleep the stronger you are
 rgb is for triforce
 JBL is fun for work
 go to ara ara island
-go to horny jail baka hentai >///<
 segfautl kill kitten
 segfautl does genocide of kitten each time
 battery at 2% is not the end
@@ -28,7 +27,7 @@ Vim > emacs
 r/unixporn
 with great power there must also come great responsability
 $USER, if someone asks you if you're a god, just say YES!
-have you try to turn it on / off ?
+have you try to turn it on | off ?
 Enf Of Line \0
 There is no place like 127.0.0.1
 I just develops random features
