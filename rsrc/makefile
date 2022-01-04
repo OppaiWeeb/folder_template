@@ -6,13 +6,13 @@
 ##
 CC		=	gcc
 
-NAME		=	file
+NAME		=	name
 
 SRC_DIR		=	src
 SRC		=	$(SRC_DIR)/main.c\
 
 TEST_DIR	=	tests
-SRC_TEST	=	$(TEST_DIR)/file.c\
+SRC_TEST	=	$(TEST_DIR)/name.c\
 
 OBJ_DIR		=	.obj
 INCLUDE_DIR 	=	include
