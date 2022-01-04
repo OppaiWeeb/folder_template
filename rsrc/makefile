@@ -4,80 +4,85 @@
 ## File description:
 ## padoru
 ##
-CC = gcc
+CC		=	gcc
 
-NAME = name
+NAME		=	folder_template
 
-SRC = src/main.c\
+SRC_DIR		=	src
+SRC		=	$(SRC_DIR)/main.c\
 
-SRC_TEST = tests/tests_name.c\
+TEST_DIR	=	tests
+SRC_TEST	=	$(TEST_DIR)/tests_folder_template.c\
 
-CFLAGS = -Wall -Wextra -Wpedantic -Wshadow -Wpointer-arith -Wcast-qual -Wundef
-CFLAGS += -iquote $(I_DIR)
+OBJ_DIR		=	.obj
+INCLUDE_DIR 	=	include
+LIB_DIR		= 	lib
+LIB 		=	-l my
 
-DEBUG_FLAGS = -ggdb -g2 -Wall -Wextra -Wundef -Wpedantic -iquote $(I_DIR)
+CFLAGS		=	-Wall -Wextra -Wpedantic -Wundef
+CFLAGS		+=	-iquote $(INCLUDE_DIR)
 
-TEST_FLAGS = -l criterion --coverage
+TEST_FLAGS = -l criterion --coverage -g2
 
-OBJ = $(SRC:.c=.o)
+DEBUG_FLAGS = -ggdb -g2 $(CFLAGS)
 
-OBJ_TEST = $(SRC_TEST:.c=.o)
+LDFLAGS =  -L $(LIB_DIR) $(LIB)
 
-OBJ_DEBUG = $(SRC:.c=_debug.o)
+OBJ = $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRC))
 
-%.o: %.c
-	$(BUILD_PRINT)
+OBJ_DEBUG = $(patsubst %.c,$(OBJ_DIR)/%_debug.o,$(SRC))
+
+OBJ_TEST = $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRC_TEST))
+
+$(OBJ_DIR)/%.o: %.c
+	@ echo -e "$(OK_COL){+} Build $<$(NO_COL)"
+	@ mkdir -p $(@D)
 	@ $(CC) $(CFLAGS) -c -o $@ $<
 
-%_debug.o: %.c
-	$(BUILD_PRINT)
+$(OBJ_DIR)/%_debug.o: %.c
+	@ echo -e "$(OK_COL){+} Build $<$(NO_COL)"
+	@ mkdir -p $(@D)
 	@ $(CC) $(DEBUG_FLAGS) -c -o $@ $<
 
-BUILD_PRINT = @echo -e "$(OK_COLOR)Building $<$(NO_COLOR)"
+NO_COL=\x1b[0m
+OK_COL=\x1b[32;01m
+ERR_COL=\x1b[31;01m
+WARN_COL=\x1b[33;01m
 
-I_DIR = ./include
+.PHONY: all libmy $(NAME) debug lean fclean unit_tests tests_run run re
 
-L_DIR = ./lib
-
-LIB = -l my
-
-LDFLAGS =  -L $(L_DIR) $(LIB)
-
-NO_COLOR=\x1b[0m
-OK_COLOR=\x1b[32;01m
-ERROR_COLOR=\x1b[31;01m
-WARN_COLOR=\x1b[33;01m
-
-all: libmy $(NAME)
+all: $(NAME)
 
 libmy:
-	@ make -C $(L_DIR)
+	@ make -C $(LIB_DIR)
 
-$(NAME): $(OBJ)
-	@echo -e "$(OK_COLOR)Building $@$(NO_COLOR)"
+$(NAME): libmy $(OBJ)
+	@ echo -e "$(OK_COL){+} Link $@$(NO_COL)"
 	@ $(CC) $(OBJ) $(CFLAGS) -o $(NAME) $(LDFLAGS)
 
 debug: libmy $(OBJ_DEBUG)
-	@echo -e "$(OK_COLOR)Building $@$(NO_COLOR)"
+	@ echo -e "$(OK_COL){+} Link $(NAME)_debug$(NO_COL)"
 	@ $(CC) $(OBJ_DEBUG) $(CFLAGS) -o $(NAME)_debug $(LDFLAGS)
 
 clean:
-	@ make clean -C $(L_DIR)
-	@echo -e "$(ERROR_COLOR){-} $(OBJ)$(OBJ_TEST)$(OBJ_DEBUG)$(NO_COLOR)"
-	@ rm -rf $(OBJ) $(OBJ_DEBUG) $(OBJ_TEST) *.gcda *.gcno
+	@ make clean -C $(LIB_DIR)
+	@ echo -e "$(ERR_COL){-} Remove $(OBJ) $(OBJ_TEST)\
+		$(OBJ_DEBUG)$(NO_COL)"
+	@ rm -rf $(OBJ_DIR) *.gcda *.gcno vgcore*
 
 fclean: clean
-	@ make fclean -C $(L_DIR)
-	@echo -e "$(ERROR_COLOR){-} $(NAME)$(NO_COLOR)"
+	@ make fclean -C $(LIB_DIR)
+	@ echo -e "$(ERR_COL){-} Remove $(NAME) $(NAME)_debug test$(NO_COL)"
 	@ rm -rf $(NAME) test $(NAME)_debug
 
-unit_tests: fclean all $(OBJ_TEST)
-	$(CC) -o test $(OBJ_TEST) $(OBJ) $(TEST_FLAGS) $(LDFLAGS)
+unit_tests: fclean libmy $(OBJ) $(OBJ_TEST)
+	@ $(CC) -o test $(OBJ_TEST) $(OBJ) $(TEST_FLAGS) $(LDFLAGS)
 
 tests_run: unit_tests
 	./test
 
-re: clean all
-	@ make -C $(L_DIR)
+run:	$(NAME)
+	./$(NAME)
 
-.PHONY: all libmy $(NAME) clean fclean unit_tests tests_run run re debug
+re: clean all
+
