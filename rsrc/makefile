@@ -6,13 +6,13 @@
 ##
 CC		=	gcc
 
-NAME		=	folder_template
+NAME		=	file
 
 SRC_DIR		=	src
 SRC		=	$(SRC_DIR)/main.c\
 
 TEST_DIR	=	tests
-SRC_TEST	=	$(TEST_DIR)/tests_folder_template.c\
+SRC_TEST	=	$(TEST_DIR)/file.c\
 
 OBJ_DIR		=	.obj
 INCLUDE_DIR 	=	include
