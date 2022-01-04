@@ -80,7 +80,7 @@ main()
     sleep .3
     gen_c src/main.c
 
-    printf "${purple} [+] create tests/test_$(get_name).c\n"
+    printf "${purple} [+] create tests/tests_$(get_name).c\n"
     sleep .3
     gen_test tests/tests_$(get_name).c
 
