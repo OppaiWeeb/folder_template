@@ -65,7 +65,7 @@ gen_makefile()
 
 main()
 {
-    if [[ $1 == "-u" ]]; then
+    if [[ $1 == "-u" || $1 == "-U" ]]; then
         echo "UPDATE"
         (cd $dir/../ && git fetch && git pull)
         (cd $dir/../lib/ && git fetch && git pull)
