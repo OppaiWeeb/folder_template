@@ -60,7 +60,7 @@ gen_makefile()
     sed -ie "s/date/$(date +%Y)/g" $pwd/Makefile
     sed -ie "s/name/$(get_name)/g" $pwd/Makefile
     nb=$(shuf -i1-35 -n1)
-    sed "s/padoru/$(select_quote $nb)/g" > $pwd/Makefile
+    sed -ie "s/padoru/$(select_quote $nb)/g" $pwd/Makefile
 }
 
 main()
