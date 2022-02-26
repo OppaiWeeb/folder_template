@@ -24,15 +24,17 @@ CFLAGS		+=	-iquote $(INCLUDE_DIR)
 
 TEST_FLAGS = -l criterion --coverage -g2
 
-DEBUG_FLAGS = -ggdb -g2 $(CFLAGS)
+DEBUG_FLAGS = -ggdb -g2 $(CFLAGS) -fanalyzer
 
 LDFLAGS =  -L $(LIB_DIR) $(LIB)
 
-OBJ = $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRC))
+OBJ	= $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRC))
 
 OBJ_DEBUG = $(patsubst %.c,$(OBJ_DIR)/%_debug.o,$(SRC))
 
-OBJ_TEST = $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRC_TEST))
+mains	=	$(OBJ)/$(SRC_DIR)/main.o
+OBJ_TEST 	= $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRC_TEST))
+OBJ_TEST 	+= $(filter-out $(mains), $(OBJ))
 
 $(OBJ_DIR)/%.o: %.c
 	@ echo -e "$(OK_COL){+} Build $<$(NO_COL)"
@@ -49,18 +51,15 @@ OK_COL=\x1b[32;01m
 ERR_COL=\x1b[31;01m
 WARN_COL=\x1b[33;01m
 
-.PHONY: all libmy $(NAME) debug lean fclean unit_tests tests_run run re
-
 all: $(NAME)
 
-libmy:
+$(NAME): $(OBJ)
 	@ make -C $(LIB_DIR)
+	echo -e "$(OK_COL){+} Link $@$(NO_COL)"
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJ)
 
-$(NAME): libmy $(OBJ)
-	@ echo -e "$(OK_COL){+} Link $@$(NO_COL)"
-	@ $(CC) $(OBJ) $(CFLAGS) -o $(NAME) $(LDFLAGS)
-
-debug: libmy $(OBJ_DEBUG)
+debug: $(OBJ_DEBUG)
+	@ make -C $(LIB_DIR)
 	@ echo -e "$(OK_COL){+} Link $(NAME)_debug$(NO_COL)"
 	@ $(CC) $(OBJ_DEBUG) $(CFLAGS) -o $(NAME)_debug $(LDFLAGS)
 
@@ -76,7 +75,7 @@ fclean: clean
 	@ rm -rf $(NAME) test $(NAME)_debug
 
 unit_tests: fclean libmy $(OBJ) $(OBJ_TEST)
-	@ $(CC) -o test $(OBJ_TEST) $(OBJ) $(TEST_FLAGS) $(LDFLAGS)
+	@ $(CC) -o test $(OBJ_TEST) $(TEST_FLAGS) $(LDFLAGS)
 
 tests_run: unit_tests
 	./test
@@ -86,3 +85,4 @@ run:	$(NAME)
 
 re: clean all
 
+.PHONY: all libmy $(NAME) debug clean fclean unit_tests tests_run run re
