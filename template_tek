@@ -100,6 +100,7 @@ main()
     sleep .3
     mkdir -p $pwd/lib
     cp -r $dir/../lib/* $pwd/lib/
+    cp $pwd/lib/include/* $pwd/include/
     rm -rf $pwd/lib/.git
 
     printf "${green} folder is ready\n"
