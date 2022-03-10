@@ -51,14 +51,14 @@ OK_COL=\x1b[32;01m
 ERR_COL=\x1b[31;01m
 WARN_COL=\x1b[33;01m
 
-all: $(NAME)
+all: libmy $(NAME)
 
 libmy:
-	make -C $(LIB_DIR)
+	@ make -C $(LIB_DIR)
 
-$(NAME): libmy $(OBJ)
-	echo -e "$(OK_COL){+} Link $@$(NO_COL)"
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJ)
+$(NAME): $(OBJ)
+	@ echo -e "$(OK_COL){+} Link $@$(NO_COL)"
+	@ $(CC) $(CFLAGS) -o $(NAME) $(OBJ)
 
 debug: libmy $(OBJ_DEBUG)
 	@ echo -e "$(OK_COL){+} Link $(NAME)_debug$(NO_COL)"
@@ -86,4 +86,4 @@ run:	$(NAME)
 
 re: clean all
 
-.PHONY: all libmy debug clean fclean unit_tests tests_run run re
+.PHONY: all clean fclean unit_tests tests_run run re
