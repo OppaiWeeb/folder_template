@@ -4,36 +4,36 @@
 ## File description:
 ## padoru
 ##
-CC		=	gcc
+CC		:=	gcc
 
-NAME		=	name
+NAME		:=	name
 
-SRC_DIR		=	src
-SRC		=	$(SRC_DIR)/main.c\
+SRC_DIR		:=	src
+SRC		:=	$(SRC_DIR)/main.c\
 
-TEST_DIR	=	tests
-SRC_TEST	=	$(TEST_DIR)/tests_name.c\
+TEST_DIR	:=	tests
+SRC_TEST	:=	$(TEST_DIR)/tests_name.c\
 
-OBJ_DIR		=	.obj
-INCLUDE_DIR 	=	include
-LIB_DIR		= 	lib
-LIB 		=	-l my
+OBJ_DIR		:=	.obj
+INCLUDE_DIR 	:=	include
+LIB_DIR		:= 	lib
+LIB 		:=	-l my
 
-CFLAGS		=	-Wall -Wextra -Wpedantic -Wundef
+CFLAGS		:=	-Wall -Wextra -Wpedantic -Wundef
 CFLAGS		+=	-iquote $(INCLUDE_DIR)
 
-TEST_FLAGS = -l criterion --coverage -g2
+TEST_FLAGS := -l criterion --coverage -g2
 
-DEBUG_FLAGS = -ggdb -g2 $(CFLAGS) -fanalyzer
+DEBUG_FLAGS := -ggdb -g2 $(CFLAGS) -fanalyzer
 
-LDFLAGS =  -L $(LIB_DIR) $(LIB)
+LDFLAGS :=  -L $(LIB_DIR) $(LIB)
 
-OBJ	= $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRC))
+OBJ	:= $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRC))
 
-OBJ_DEBUG = $(patsubst %.c,$(OBJ_DIR)/%_debug.o,$(SRC))
+OBJ_DEBUG := $(patsubst %.c,$(OBJ_DIR)/%_debug.o,$(SRC))
 
-mains	=	$(OBJ)/$(SRC_DIR)/main.o
-OBJ_TEST 	= $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRC_TEST))
+mains	:=	$(OBJ)/$(SRC_DIR)/main.o
+OBJ_TEST 	:= $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRC_TEST))
 OBJ_TEST 	+= $(filter-out $(mains), $(OBJ))
 
 $(OBJ_DIR)/%.o: %.c
@@ -53,13 +53,14 @@ WARN_COL=\x1b[33;01m
 
 all: $(NAME)
 
-$(NAME): $(OBJ)
-	@ make -C $(LIB_DIR)
+libmy:
+	make -C $(LIB_DIR)
+
+$(NAME): libmy $(OBJ)
 	echo -e "$(OK_COL){+} Link $@$(NO_COL)"
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJ)
 
-debug: $(OBJ_DEBUG)
-	@ make -C $(LIB_DIR)
+debug: libmy $(OBJ_DEBUG)
 	@ echo -e "$(OK_COL){+} Link $(NAME)_debug$(NO_COL)"
 	@ $(CC) $(OBJ_DEBUG) $(CFLAGS) -o $(NAME)_debug $(LDFLAGS)
 
@@ -85,4 +86,4 @@ run:	$(NAME)
 
 re: clean all
 
-.PHONY: all libmy $(NAME) debug clean fclean unit_tests tests_run run re
+.PHONY: all libmy debug clean fclean unit_tests tests_run run re
