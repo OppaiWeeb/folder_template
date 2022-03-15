@@ -15,26 +15,26 @@ TEST_DIR	:=	tests
 SRC_TEST	:=	$(TEST_DIR)/tests_name.c\
 
 OBJ_DIR		:=	.obj
-INCLUDE_DIR 	:=	include
+INCLUDE_DIR	:=	include
 LIB_DIR		:= 	lib
 LIB 		:=	-l my
 
 CFLAGS		:=	-Wall -Wextra -Wpedantic -Wundef
 CFLAGS		+=	-iquote $(INCLUDE_DIR)
 
-TEST_FLAGS := -l criterion --coverage -g2
+TEST_FLAGS	:=	-l criterion --coverage -g2
 
-DEBUG_FLAGS := -ggdb -g2 $(CFLAGS) -fanalyzer
+DEBUG_FLAGS	:=	-ggdb -g2 $(CFLAGS) -fanalyzer
 
-LDFLAGS :=  -L $(LIB_DIR) $(LIB)
+LDFLAGS		:=	-L $(LIB_DIR) $(LIB)
 
-OBJ	:= $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRC))
+OBJ		:=	$(patsubst %.c,$(OBJ_DIR)/%.o,$(SRC))
 
-OBJ_DEBUG := $(patsubst %.c,$(OBJ_DIR)/%_debug.o,$(SRC))
+OBJ_DEBUG	:=	$(patsubst %.c,$(OBJ_DIR)/%_debug.o,$(SRC))
 
-mains	:=	$(OBJ)/$(SRC_DIR)/main.o
-OBJ_TEST 	:= $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRC_TEST))
-OBJ_TEST 	+= $(filter-out $(mains), $(OBJ))
+mains		:=	$(OBJ)/$(SRC_DIR)/main.o
+OBJ_TEST 	:=	$(patsubst %.c,$(OBJ_DIR)/%.o,$(SRC_TEST))
+OBJ_TEST 	+=	$(filter-out $(mains), $(OBJ))
 
 $(OBJ_DIR)/%.o: %.c
 	@ echo -e "$(OK_COL){+} Build $<$(NO_COL)"
