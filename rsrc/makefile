@@ -58,11 +58,11 @@ libmy:
 
 $(NAME): $(OBJ)
 	@ echo -e "$(OK_COL){+} Link $@$(NO_COL)"
-	@ $(CC) $(CFLAGS) -o $(NAME) $(OBJ)
+	@ $(CC) -o $(NAME) $(OBJ) $(LDFLAGS)
 
 debug: libmy $(OBJ_DEBUG)
 	@ echo -e "$(OK_COL){+} Link $(NAME)_debug$(NO_COL)"
-	@ $(CC) $(OBJ_DEBUG) $(CFLAGS) -o $(NAME)_debug $(LDFLAGS)
+	@ $(CC) $(OBJ_DEBUG) -o $(NAME)_debug $(LDFLAGS)
 
 clean:
 	@ make clean -C $(LIB_DIR)
