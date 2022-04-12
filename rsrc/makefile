@@ -18,6 +18,7 @@ OBJ_DIR		:=	.obj
 INCLUDE_DIR	:=	include
 LIB_DIR		:= 	lib
 LIB 		:=	-l my
+LIB_TEST		:=	-l criterion
 
 CFLAGS		:=	-Wall -Wextra -Wpedantic -Wundef
 CFLAGS		+=	-iquote $(INCLUDE_DIR)
@@ -26,13 +27,11 @@ DEBUG_FLAGS	:=	-ggdb -g2 $(CFLAGS) -fanalyzer
 
 LDFLAGS		:=	-L $(LIB_DIR) $(LIB)
 
-LDFLAGS_TEST	:=	-l criterion -ftest-coverage -g2
-
 OBJ	:=	$(patsubst %.c,$(OBJ_DIR)/%.o,$(SRC))
 
 OBJ_DEBUG	:=	$(patsubst %.c,$(OBJ_DIR)/%_debug.o,$(SRC))
 
-mains		:=	$(OBJ)/$(SRC_DIR)/main.o
+mains		:=	$(OBJ)/$(SRC_DIR)/main_debug.o
 OBJ_TEST 	:=	$(patsubst %.c,$(OBJ_DIR)/%.o,$(SRC_TEST))
 OBJ_TEST 	+=	$(filter-out $(mains), $(OBJ))
 
@@ -75,8 +74,8 @@ fclean: clean
 	@ echo -e "$(ERR_COL){-} Remove $(NAME) $(NAME)_debug test$(NO_COL)"
 	@ rm -rf $(NAME) test $(NAME)_debug
 
-unit_tests: fclean libmy $(OBJ) $(OBJ_TEST)
-	@ $(CC) -o test $(OBJ_TEST) $(LDFLAGS_TEST)
+unit_tests: fclean libmy $(OBJ_DEBUG) $(OBJ_TEST)
+	@ $(CC) -o test $(OBJ_TEST) $(LDFLAGS) $(LIB_TEST)
 
 tests_run: unit_tests
 	./test
