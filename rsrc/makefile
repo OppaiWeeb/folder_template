@@ -4,12 +4,12 @@
 ## File description:
 ## padoru
 ##
-CC		:=	gcc
+CC	:=	gcc
 
-NAME		:=	name
+NAME	:=	name
 
-SRC_DIR		:=	src
-SRC		:=	$(SRC_DIR)/main.c\
+SRC_DIR	:=	src
+SRC	:=	$(SRC_DIR)/main.c\
 
 TEST_DIR	:=	tests
 SRC_TEST	:=	$(TEST_DIR)/tests_name.c\
@@ -22,13 +22,13 @@ LIB 		:=	-l my
 CFLAGS		:=	-Wall -Wextra -Wpedantic -Wundef
 CFLAGS		+=	-iquote $(INCLUDE_DIR)
 
-TEST_FLAGS	:=	-l criterion --coverage -g2
-
 DEBUG_FLAGS	:=	-ggdb -g2 $(CFLAGS) -fanalyzer
 
 LDFLAGS		:=	-L $(LIB_DIR) $(LIB)
 
-OBJ		:=	$(patsubst %.c,$(OBJ_DIR)/%.o,$(SRC))
+LDFLAGS_TEST	:=	-l criterion -ftest-coverage -g2
+
+OBJ	:=	$(patsubst %.c,$(OBJ_DIR)/%.o,$(SRC))
 
 OBJ_DEBUG	:=	$(patsubst %.c,$(OBJ_DIR)/%_debug.o,$(SRC))
 
@@ -67,7 +67,7 @@ debug: libmy $(OBJ_DEBUG)
 clean:
 	@ make clean -C $(LIB_DIR)
 	@ echo -e "$(ERR_COL){-} Remove $(OBJ) $(OBJ_TEST)\
-		$(OBJ_DEBUG)$(NO_COL)"
+	$(OBJ_DEBUG)$(NO_COL)"
 	@ rm -rf $(OBJ_DIR) *.gcda *.gcno vgcore*
 
 fclean: clean
@@ -76,7 +76,7 @@ fclean: clean
 	@ rm -rf $(NAME) test $(NAME)_debug
 
 unit_tests: fclean libmy $(OBJ) $(OBJ_TEST)
-	@ $(CC) -o test $(OBJ_TEST) $(TEST_FLAGS) $(LDFLAGS)
+	@ $(CC) -o test $(OBJ_TEST) $(LDFLAGS_TEST)
 
 tests_run: unit_tests
 	./test
