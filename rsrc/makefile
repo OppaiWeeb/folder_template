@@ -4,7 +4,7 @@
 ## File description:
 ## padoru
 ##
-CC	:=	gcc
+CC	?=	gcc
 
 NAME	:=	name
 
@@ -14,7 +14,6 @@ SRC	:=	$(SRC_DIR)/main.c\
 TEST_DIR	:=	tests
 SRC_TEST	:=	$(TEST_DIR)/tests_name.c\
 
-OBJ_DIR		:=	.obj
 INCLUDE_DIR	:=	include
 LIB_DIR		:= 	lib
 LIB 		:=	-l my
@@ -27,20 +26,20 @@ DEBUG_FLAGS	:=	-ggdb -g2 $(CFLAGS) -fanalyzer
 
 LDFLAGS		:=	-L $(LIB_DIR) $(LIB)
 
-OBJ	:=	$(patsubst %.c,$(OBJ_DIR)/%.o,$(SRC))
-
-OBJ_DEBUG	:=	$(patsubst %.c,$(OBJ_DIR)/%_debug.o,$(SRC))
+OBJ_DIR		:=	.obj
+OBJ	:=	$(addprefix $(OBJ_DIR), $(SRC:.c=.o))
+OBJ_DEBUG	:=	$(addprefix $(OBJ_DIR), $(SRC:.c=.o))
 
 mains		:=	$(OBJ)/$(SRC_DIR)/main_debug.o
-OBJ_TEST 	:=	$(patsubst %.c,$(OBJ_DIR)/%.o,$(SRC_TEST))
+OBJ_TEST	:=	$(addprefix $(OBJ_DIR), $(SRC:.c=.o))
 OBJ_TEST 	+=	$(filter-out $(mains), $(OBJ))
 
-$(OBJ_DIR)/%.o: %.c
+$(OBJ_DIR)%.o: %.c
 	@ echo -e "$(OK_COL){+} Build $<$(NO_COL)"
 	@ mkdir -p $(@D)
 	@ $(CC) $(CFLAGS) -c -o $@ $<
 
-$(OBJ_DIR)/%_debug.o: %.c
+$(OBJ_DIR/%_debug.o: %.c
 	@ echo -e "$(OK_COL){+} Build $<$(NO_COL)"
 	@ mkdir -p $(@D)
 	@ $(CC) $(DEBUG_FLAGS) -c -o $@ $<
