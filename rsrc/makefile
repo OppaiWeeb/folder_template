@@ -26,7 +26,7 @@ DEBUG_FLAGS	:=	-ggdb -g2 $(CFLAGS) -fanalyzer
 
 LDFLAGS		:=	-L $(LIB_DIR) $(LIB)
 
-OBJ_DIR		:=	.obj
+OBJ_DIR		:=	.obj/
 OBJ	:=	$(addprefix $(OBJ_DIR), $(SRC:.c=.o))
 OBJ_DEBUG	:=	$(addprefix $(OBJ_DIR), $(SRC:.c=.o))
 
@@ -39,7 +39,7 @@ $(OBJ_DIR)%.o: %.c
 	@ mkdir -p $(@D)
 	@ $(CC) $(CFLAGS) -c -o $@ $<
 
-$(OBJ_DIR/%_debug.o: %.c
+$(OBJ_DIR)%_debug.o: %.c
 	@ echo -e "$(OK_COL){+} Build $<$(NO_COL)"
 	@ mkdir -p $(@D)
 	@ $(CC) $(DEBUG_FLAGS) -c -o $@ $<
