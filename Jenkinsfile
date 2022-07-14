@@ -7,15 +7,5 @@ pipeline {
                 sh 'python --version'
             }
         }
-        stage('Test') {
-            steps {
-                //
-            }
-        }
-        stage('Deploy') {
-            steps {
-                //
-            }
-        }
     }
 }
