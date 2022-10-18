@@ -19,8 +19,8 @@ LIB_DIR		:= 	lib
 LIB 		:=	-l my
 LIB_TEST		:=	-l criterion
 
-CFLAGS		:=	-Wall -Wextra -Wpedantic -Wundef
-CFLAGS		+=	-iquote $(INCLUDE_DIR)
+CFLAGS		:=	-Wall -Wextra -Wpedantic -Wundef -O3
+CFLAGS		+=	-iquote $(INCLUDE_DIR) -std=c99
 
 DEBUG_FLAGS	:=	-ggdb -g2 $(CFLAGS) -fanalyzer
 
@@ -37,12 +37,12 @@ OBJ_TEST 	+=	$(filter-out $(mains), $(OBJ))
 $(OBJ_DIR)%.o: %.c
 	@ echo -e "$(OK_COL){+} Build $<$(NO_COL)"
 	@ mkdir -p $(@D)
-	@ $(CC) $(CFLAGS) -c -o $@ $<
+	 $(CC) $(CFLAGS) -c -o $@ $<
 
 $(OBJ_DIR)%_debug.o: %.c
 	@ echo -e "$(OK_COL){+} Build $<$(NO_COL)"
 	@ mkdir -p $(@D)
-	@ $(CC) $(DEBUG_FLAGS) -c -o $@ $<
+	 $(CC) $(DEBUG_FLAGS) -c -o $@ $<
 
 NO_COL=\x1b[0m
 OK_COL=\x1b[32;01m
@@ -56,11 +56,11 @@ libmy:
 
 $(NAME): $(OBJ)
 	@ echo -e "$(OK_COL){+} Link $@$(NO_COL)"
-	@ $(CC) -o $(NAME) $(OBJ) $(LDFLAGS)
+	 $(CC) -o $(NAME) $(OBJ) $(LDFLAGS)
 
 debug: libmy $(OBJ_DEBUG)
 	@ echo -e "$(OK_COL){+} Link $(NAME)_debug$(NO_COL)"
-	@ $(CC) $(OBJ_DEBUG) -o $(NAME)_debug $(LDFLAGS)
+	 $(CC) $(OBJ_DEBUG) -o $(NAME)_debug $(LDFLAGS)
 
 clean:
 	@ make clean -C $(LIB_DIR)
