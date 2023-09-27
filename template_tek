@@ -24,18 +24,9 @@ select_quote()
     echo $line
 }
 
-gen_c()
+gen_c_cpp()
 {
     cp $dir/header.c $pwd/$1
-    sed -i "s/date/$(date +%Y)/g" $pwd/$1
-    sed -i "s/file/$(get_name)/g" $pwd/$1
-    nb=$(shuf -i1-35 -n1)
-    sed -i "s/quote/$(select_quote $nb)/g" $pwd/$1
-}
-
-gen_test()
-{
-    cp $dir/header_test.c $pwd/$1
     sed -i "s/date/$(date +%Y)/g" $pwd/$1
     sed -i "s/file/$(get_name)/g" $pwd/$1
     nb=$(shuf -i1-35 -n1)
@@ -54,56 +45,61 @@ gen_h()
     sed -i "s/quote/$(select_quote $nb)/g" $pwd/$1
 }
 
-gen_makefile()
+create_C_archi()
 {
-    cp $dir/makefile $pwd/Makefile
-    sed -i "s/date/$(date +%Y)/g" $pwd/Makefile
-    sed -i "s/name/$(get_name)/g" $pwd/Makefile
-    nb=$(shuf -i1-35 -n1)
-    sed -i "s/padoru/$(select_quote $nb)/g" $pwd/Makefile
-}
-
-main()
-{
-    if [[ $1 == "-u" || $1 == "-U" ]]; then
-        echo "UPDATE"
-        (cd $dir/../ && git fetch && git pull)
-        (cd $dir/../lib/ && git fetch && git pull)
-        exit 0
-    fi
-
     printf "${purple} [+] create folder\n"
-    sleep .3
-    mkdir -p $pwd/src $pwd/include $pwd/tests $pwd/subject
-
+    sleep .2
+    mkdir -p $pwd/src $pwd/include $pwd/tests
     printf "${purple} [+] create main.c\n"
-    sleep .3
-    gen_c src/main.c
-
+    sleep .2
+    gen_c_cpp src/main.c
     printf "${purple} [+] create tests/tests_$(get_name).c\n"
-    sleep .3
-    gen_test tests/tests_$(get_name).c
-
+    sleep .2
+    gen_c_cpp tests/tests_$(get_name).c
     printf "${purple} [+] create makefile\n"
-    sleep .3
-    gen_makefile
-
+    sleep .2
+    # makefile_generator
     printf "${purple} [+] create include/$(get_name).h\n"
-    sleep .3
+    sleep .2
     gen_h include/$(get_name).h
-
     printf "${purple} [+] create gitignore\n"
-    sleep .3
+    sleep .2
     cat $dir/gitignore | sed "s/name/$(get_name)/g" > $pwd/.gitignore
-
     printf "${purple} [+] create lib\n"
-    sleep .3
+    sleep .2
     mkdir -p $pwd/lib
     cp -r $dir/../lib/* $pwd/lib/
     cp $pwd/lib/include/* $pwd/include/
     rm -rf $pwd/lib/.git
-
-    printf "${green} folder is ready\n"
 }
 
-main $1
+if [[ $1 == "-u" || $1 == "-U" ]]; then
+    echo "UPDATE"
+    (cd $dir/../ && git fetch && git pull)
+    (cd $dir/../lib/ && git fetch && git pull)
+    exit 0
+fi
+
+select FILE in C CPP PYTHON RUST SH; do
+    case $FILE in
+        "C") create_C_archi
+            break
+        ;;
+        # "CPP") create_CPP_archi
+        #     break
+        # ;;
+        "PYTHON") echo "Not implemented yet"
+            break
+        ;;
+        "RUST") echo " Not implemented yet"
+            break
+        ;;
+        "SH") echo "Not implement yet"
+            break
+        ;;
+        *) echo "Not implemented yet"
+            break
+        ;;
+    esac
+done
+printf "${green} folder is ready\n"
